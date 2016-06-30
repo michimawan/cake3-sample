@@ -7,16 +7,17 @@
     </ul>
 </nav>
 <div class="students form large-9 medium-8 columns content">
-    <?= $this->Form->create($student) ?>
+    <?= $this->Form->create($student, ['enctype' => 'multipart/form-data']) ?>
     <fieldset>
         <legend><?= __('Add Student') ?></legend>
         <?php
             echo $this->Form->input('nim');
             echo $this->Form->input('name');
             echo $this->Form->input('prodi_id', ['options' => $prodis]);
-            echo $this->Form->input('file_name');
-            echo $this->Form->input('file_path');
-            echo $this->Form->input('mime_type');
+            echo $this->Form->input('photo', [
+                'type' => 'file',
+                'label' => 'Photo',
+            ]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

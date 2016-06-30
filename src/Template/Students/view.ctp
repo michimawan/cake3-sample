@@ -49,4 +49,11 @@
         <h4><?= __('Mime Type') ?></h4>
         <?= $this->Text->autoParagraph(h($student->mime_type)); ?>
     </div>
+    <button class="js-show-image">Show Image</button>
+    <div class="img-placeholder">
+    </div>
 </div>
+
+<?php
+echo $this->element('showImage');
+?>

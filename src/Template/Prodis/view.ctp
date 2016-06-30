@@ -41,10 +41,6 @@
                 <th><?= __('Id') ?></th>
                 <th><?= __('Nim') ?></th>
                 <th><?= __('Name') ?></th>
-                <th><?= __('Prodi Id') ?></th>
-                <th><?= __('File Name') ?></th>
-                <th><?= __('File Path') ?></th>
-                <th><?= __('Mime Type') ?></th>
                 <th><?= __('Created') ?></th>
                 <th><?= __('Modified') ?></th>
                 <th class="actions"><?= __('Actions') ?></th>
@@ -54,10 +50,6 @@
                 <td><?= h($students->id) ?></td>
                 <td><?= h($students->nim) ?></td>
                 <td><?= h($students->name) ?></td>
-                <td><?= h($students->prodi_id) ?></td>
-                <td><?= h($students->file_name) ?></td>
-                <td><?= h($students->file_path) ?></td>
-                <td><?= h($students->mime_type) ?></td>
                 <td><?= h($students->created) ?></td>
                 <td><?= h($students->modified) ?></td>
                 <td class="actions">

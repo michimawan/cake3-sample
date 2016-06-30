@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * Students Controller
@@ -18,7 +19,7 @@ class StudentsController extends AppController
      */
     public function index()
     {
-        $students = $this->paginate($this->Students);
+        $students = $this->paginate($this->Students->find()->contain(['Prodis']));
 
         $this->set(compact('students'));
         $this->set('_serialize', ['students']);
@@ -34,7 +35,7 @@ class StudentsController extends AppController
     public function view($id = null)
     {
         $student = $this->Students->get($id, [
-            'contain' => []
+            'contain' => ['Prodis']
         ]);
 
         $this->set('student', $student);
@@ -50,6 +51,7 @@ class StudentsController extends AppController
     {
         $student = $this->Students->newEntity();
         if ($this->request->is('post')) {
+            $this->request = $this->upload($this->request);
             $student = $this->Students->patchEntity($student, $this->request->data);
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
@@ -58,7 +60,9 @@ class StudentsController extends AppController
                 $this->Flash->error(__('The student could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('student'));
+
+        $prodis = $this->Students->Prodis->find('list')->select(['id', 'name']);
+        $this->set(compact('student', 'prodis'));
         $this->set('_serialize', ['student']);
     }
 
@@ -75,16 +79,67 @@ class StudentsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $this->request = $this->upload($this->request);
             $student = $this->Students->patchEntity($student, $this->request->data);
-            if ($this->Students->save($student)) {
+
+            $saveStatus = $this->Students->save($student);
+            if ($saveStatus) {
                 $this->Flash->success(__('The student has been saved.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The student could not be saved. Please, try again.'));
             }
         }
-        $this->set(compact('student'));
+        $prodis = $this->Students->Prodis->find()->combine('id', 'name');
+        $this->set(compact('student', 'prodis'));
         $this->set('_serialize', ['student']);
+    }
+
+    private function doUpload(array $file)
+    {
+        $ext = substr(strrchr(strtolower($file['name']),'.'),1);
+        if (in_array($ext, array('jpg','jpeg','png','gif'))) {
+            $fullpath = getcwd() . DS . 'img' . DS . 'students' . DS;
+            move_uploaded_file($file['tmp_name'], $fullpath . $file['name']);
+            return true;
+        }
+        return false;
+    }
+
+    private function upload($request)
+    {
+        if ($request->data['photo']['tmp_name']) {
+            $file = $request->data['photo'];
+
+            $uploadStatus = $this->doUpload($file);
+
+            if ($uploadStatus) {
+                $request->data['file_name'] = $file['name'];
+                $request->data['file_path'] = DS . 'img' . DS . 'students' . DS . $file['name'];
+                $request->data['mime_type'] = $file['type'];
+            }
+
+        }
+
+        return $request;
+    }
+
+    public function getimage($id = null)
+    {
+        $this->autoRender = false;
+        if ($this->request->is('ajax')) {
+            $student = $this->Students->get($id);
+            if ($student) {
+                $image = [
+                    'path' => $student->file_path
+                ];
+                echo json_encode($image);
+            } else {
+                echo "not found";
+            }
+        } else {
+            return $this->redirect(['action' => 'index']);
+        }
     }
 
     /**

@@ -34,7 +34,7 @@ class ProdisController extends AppController
     public function view($id = null)
     {
         $prodi = $this->Prodis->get($id, [
-            'contain' => []
+            'contain' => ['Students']
         ]);
 
         $this->set('prodi', $prodi);
