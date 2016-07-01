@@ -79,3 +79,33 @@ Router::scope('/', function (RouteBuilder $routes) {
  * how to customize the loading of plugin routes.
  */
 Plugin::routes();
+
+Router::connect(
+'/api/insurances/id/:id', [
+    'controller' => 'Insurances',
+    'action' => 'id'], [
+        'id' => '\d+',
+        'pass' => ['id']
+    ]
+);
+
+Router::connect(
+'/api/insurances/country/:country', [
+    'controller' => 'Insurances',
+    'action' => 'country'], [
+        'pass' => ['country']
+    ]
+);
+
+Router::connect(
+'/api/insurances/country_summary/:country', [
+    'controller' => 'Insurances',
+    'action' => 'country'], [
+        'pass' => ['country']
+    ]
+);
+
+Router::connect('/insurances/id/:id', []);
+Router::connect('/insurances/country/:country', []);
+Router::connect('/insurances/country_summary/:country', []);
+
