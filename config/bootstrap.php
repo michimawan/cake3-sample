@@ -220,4 +220,6 @@ Type::build('date')
 Type::build('datetime')
     ->useImmutable();
 
-Plugin::load('Migrations');
+// load Api Auth Token
+Configure::load('api');
+DispatcherFactory::add('Api', ['for' => '/api']);
