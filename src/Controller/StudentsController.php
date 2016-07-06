@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Exception;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 
@@ -34,9 +35,14 @@ class StudentsController extends AppController
      */
     public function view($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => ['Prodis']
-        ]);
+        try {
+            $student = $this->Students->get($id, [
+                'contain' => ['Prodis']
+            ]);
+        } catch (Exception $e) {
+            $this->Flash->error('No Student with ID ' . $id);
+            $this->redirect(['action' => 'index']);
+        }
 
         $this->set('student', $student);
         $this->set('_serialize', ['student']);
@@ -75,9 +81,13 @@ class StudentsController extends AppController
      */
     public function edit($id = null)
     {
-        $student = $this->Students->get($id, [
-            'contain' => []
-        ]);
+        try {
+            $student = $this->Students->get($id, []);
+        } catch (Exception $e) {
+            $this->Flash->error('No Student with ID ' . $id);
+            $this->redirect(['action' => 'index']);
+        }
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $this->request = $this->upload($this->request);
             $student = $this->Students->patchEntity($student, $this->request->data);
@@ -152,7 +162,13 @@ class StudentsController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $student = $this->Students->get($id);
+        try {
+            $student = $this->Students->get($id);
+        } catch (Exception $e) {
+            $this->Flash->error('No Student with ID ' . $id);
+            $this->redirect(['action' => 'index']);
+        }
+
         if ($this->Students->delete($student)) {
             $this->Flash->success(__('The student has been deleted.'));
         } else {
