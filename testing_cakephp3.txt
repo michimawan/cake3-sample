@@ -32,3 +32,6 @@ if (!Configure::read('debug')):
     throw new NotFoundException('Please replace src/Template/Pages/home.ctp with your own version.');
 endif;
 ```
+
+for appropriate list of assertion aside from PHPUnit use this flie
+	vendor/cakephp/cakephp/src/TestSuite/IntegrationTestCase.php
