@@ -1,0 +1,34 @@
+testing in cakephp 3
+
+installing phpunit (documentation)
+change the vendor/bin/php
+	#!/usr/bin/env php
+	to
+	#!/usr/bin/env /opt/lampp/bin/php
+
+Test Database Setup
+Remember to have debug enabled in your config/app.php file before running any tests. 
+Before running any tests you should be sure to add a test datasource configuration to config/app.php. This configuration is used by CakePHP for fixture tables and data:
+
+'Datasources' => [
+    'test' => [
+        'datasource' => 'Cake\Database\Driver\Mysql',
+        'persistent' => false,
+        'host' => 'dbhost',
+        'username' => 'dblogin',
+        'password' => 'dbpassword',
+        'database' => 'test_database'
+    ],
+],
+
+after setup database do:
+vendor/bin/phpunit
+
+if any error message displayed then
+
+remove this code 
+``` 
+if (!Configure::read('debug')):
+    throw new NotFoundException('Please replace src/Template/Pages/home.ctp with your own version.');
+endif;
+```
