@@ -33,9 +33,14 @@ class ProdisController extends AppController
      */
     public function view($id = null)
     {
+        try {
         $prodi = $this->Prodis->get($id, [
             'contain' => ['Students']
         ]);
+        } catch (\Exception $e) {
+            $this->Flash->success(__('The prodi with that ID does not exist'));
+            return $this->redirect(['action' => 'index']);
+        }
 
         $this->set('prodi', $prodi);
         $this->set('_serialize', ['prodi']);
@@ -71,9 +76,14 @@ class ProdisController extends AppController
      */
     public function edit($id = null)
     {
-        $prodi = $this->Prodis->get($id, [
-            'contain' => []
-        ]);
+        try {
+            $prodi = $this->Prodis->get($id, [
+                'contain' => []
+            ]);
+        } catch (\Exception $e) {
+            $this->Flash->success(__('There is no prodi as requested'));
+            return $this->redirect(['action' => 'index']);
+        }
         if ($this->request->is(['patch', 'post', 'put'])) {
             $prodi = $this->Prodis->patchEntity($prodi, $this->request->data);
             if ($this->Prodis->save($prodi)) {
@@ -93,11 +103,16 @@ class ProdisController extends AppController
      * @param string|null $id Prodi id.
      * @return \Cake\Network\Response|null Redirects to index.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @throws \Cake\Network\Exception\MethodNotAllowedException When not using post
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $prodi = $this->Prodis->get($id);
+        try {
+            $this->request->allowMethod(['post']);
+            $prodi = $this->Prodis->get($id);
+        } catch (\Exception $e) {
+            return $this->redirect(['action' => 'index']);
+        }
         if ($this->Prodis->delete($prodi)) {
             $this->Flash->success(__('The prodi has been deleted.'));
         } else {

@@ -45,5 +45,18 @@ class ProdisFixture extends TestFixture
             'created' => 1466787971,
             'modified' => 1466787971
         ],
+        [
+            'id' => 2,
+            'code' => 'Lorem ipsum dolor ',
+            'name' => 'Lorem ipsum dolor sit amet',
+            'created' => 1466787971,
+            'modified' => 1466787971
+        ],
     ];
+
+    public function init()
+    {
+        $this->records;
+        parent::init();
+    }
 }
