@@ -54,7 +54,7 @@ class InsurancesFixture extends TestFixture
         [
             'id' => 1,
             'statecode' => 'Lorem ip',
-            'country' => 'Lorem ipsum dolor sit amet',
+            'country' => 'Indonesia',
             'eq_site_limit' => 1,
             'hu_site_limit' => 1,
             'fl_site_limit' => 1,

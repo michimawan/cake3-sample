@@ -58,18 +58,6 @@ class StudentsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->requirePresence('file_name', 'create')
-            ->notEmpty('file_name');
-
-        $validator
-            ->requirePresence('file_path', 'create')
-            ->notEmpty('file_path');
-
-        $validator
-            ->requirePresence('mime_type', 'create')
-            ->notEmpty('mime_type');
-
         return $validator;
     }
 
@@ -83,6 +71,7 @@ class StudentsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['prodi_id'], 'Prodis'));
+        $rules->add($rules->isUnique(['nim']));
         return $rules;
     }
 }

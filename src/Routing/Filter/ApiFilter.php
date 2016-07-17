@@ -3,7 +3,6 @@ namespace App\Routing\Filter;
 
 use Cake\Event\Event;
 use Cake\Core\Configure;
-use Cake\Routing\Router;
 use Cake\Routing\DispatcherFilter;
 
 class ApiFilter extends DispatcherFilter

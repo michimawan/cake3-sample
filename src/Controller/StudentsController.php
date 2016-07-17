@@ -41,7 +41,7 @@ class StudentsController extends AppController
             ]);
         } catch (Exception $e) {
             $this->Flash->error('No Student with ID ' . $id);
-            $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
 
         $this->set('student', $student);
@@ -59,6 +59,7 @@ class StudentsController extends AppController
         if ($this->request->is('post')) {
             $this->request = $this->upload($this->request);
             $student = $this->Students->patchEntity($student, $this->request->data);
+
             if ($this->Students->save($student)) {
                 $this->Flash->success(__('The student has been saved.'));
                 return $this->redirect(['action' => 'index']);
@@ -85,7 +86,7 @@ class StudentsController extends AppController
             $student = $this->Students->get($id, []);
         } catch (Exception $e) {
             $this->Flash->error('No Student with ID ' . $id);
-            $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
@@ -161,12 +162,12 @@ class StudentsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         try {
+            $this->request->allowMethod(['post']);
             $student = $this->Students->get($id);
         } catch (Exception $e) {
             $this->Flash->error('No Student with ID ' . $id);
-            $this->redirect(['action' => 'index']);
+            return $this->redirect(['action' => 'index']);
         }
 
         if ($this->Students->delete($student)) {

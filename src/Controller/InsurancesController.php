@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use Exception;
 use App\Controller\AppController;
 use Cake\Event\Event;
 
@@ -41,6 +42,9 @@ class InsurancesController extends AppController
     public function country($country = null)
     {
         $insurances = $this->Insurances->find()->where(['country' => $country])->all();
+
+        if ($insurances->count() == 0)
+            $insurances = null;
 
         $this->set('insurances', json_encode($insurances));
     }

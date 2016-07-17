@@ -100,7 +100,7 @@ Router::connect(
 Router::connect(
 '/api/insurances/country_summary/:country', [
     'controller' => 'Insurances',
-    'action' => 'country'], [
+    'action' => 'countrySummary'], [
         'pass' => ['country']
     ]
 );
