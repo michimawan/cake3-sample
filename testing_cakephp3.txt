@@ -5,6 +5,7 @@ change the vendor/bin/php
 	#!/usr/bin/env php
 	to
 	#!/usr/bin/env /opt/lampp/bin/php
+on vendor/bin/phpunit
 
 Test Database Setup
 Remember to have debug enabled in your config/app.php file before running any tests. 
@@ -32,6 +33,7 @@ if (!Configure::read('debug')):
     throw new NotFoundException('Please replace src/Template/Pages/home.ctp with your own version.');
 endif;
 ```
+on src/Templates/pages/home.ctp
 
 for appropriate list of assertion aside from PHPUnit use this flie
 	vendor/cakephp/cakephp/src/TestSuite/IntegrationTestCase.php
